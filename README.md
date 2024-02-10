@@ -16,7 +16,7 @@ print(f"crc32 for {data!r} is {crc32(data)}")
 ```
 
 ## Speed
-The performance of `pycrc32` has been benchmarked using 32MB of random input data. Below is a comparison of the median computation times across different libraries:
+The performance of `pycrc32` has been benchmarked on a trusty old Intel i7-8550U using 32MB of random input data. Below is a comparison of the median computation times across different libraries:
 
 | Library   | Median Time (s) |
 |-----------|-----------------|
