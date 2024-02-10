@@ -7,31 +7,34 @@ from fastcrc.crc32 import iso_hdlc
 from pycrc32 import crc32
 
 
-def generate_data():
-    return np.random.random((2048, 2048)).tobytes()
-
-
-def time_crc32_calculation(data, method):
-    start_time = time.time()
-    crc_value = method(data)
-    end_time = time.time()
-    return crc_value, end_time - start_time
+def time_crc32_calculation(data, method, iterations):
+    times = []
+    for _ in range(iterations):
+        start_time = time.time()
+        method(data)
+        end_time = time.time()
+        times.append(end_time - start_time)
+    return np.median(times)
 
 
 def main():
-    data = generate_data()
+    iterations = 100
+    print(f"Running benchmark with {iterations} iterations for each library.")
 
-    # Benchmark pycrc32
-    crc_value_pycrc32, time_pycrc32 = time_crc32_calculation(data, crc32)
-    print(f"pycrc32: CRC32={crc_value_pycrc32}, Time={time_pycrc32:.6f} seconds")
+    data = np.random.random((2048, 2048)).tobytes()
 
-    # Benchmark fastcrc
-    crc_value_fastcrc, time_fastcrc = time_crc32_calculation(data, iso_hdlc)
-    print(f"fastcrc: CRC32={crc_value_fastcrc}, Time={time_fastcrc:.6f} seconds")
+    # Collecting benchmark data
+    results = [
+        ("pycrc32", time_crc32_calculation(data, crc32, iterations)),
+        ("zlib", time_crc32_calculation(data, zlib.crc32, iterations)),
+        ("fastcrc", time_crc32_calculation(data, iso_hdlc, iterations)),
+    ]
 
-    # Benchmark zlib
-    crc_value_zlib, time_zlib = time_crc32_calculation(data, zlib.crc32)
-    print(f"zlib: CRC32={crc_value_zlib}, Time={time_zlib:.6f} seconds")
+    # Print results in tabular format
+    print(f"{'Library':<10} | {'Median Time (s)':>15}")
+    print("-" * 28)  # Header separator
+    for lib, result_time in results:
+        print(f"{lib:<10} | {result_time:15.6f}")
 
 
 if __name__ == "__main__":
