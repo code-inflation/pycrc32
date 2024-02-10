@@ -9,5 +9,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 crc32fast = "1.0.3"
-pyo3 = "0.19.0"
+pyo3 = "0.20.2"
 
