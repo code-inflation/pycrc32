@@ -7,6 +7,21 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
+readme = "README.md"
+description = "Python module for SIMD-accelerated CRC32 checksum computation"
+author = "cybuerg <robin.buergi@gmail.com>"
+maintainer = "cybuerg <robin.buergi@gmail.com>"
+homepage = "https://github.com/code-inflation/pycrc32"
+repository = "https://github.com/code-inflation/pycrc32"
+keywords = [
+    "crc",
+    "crc32",
+    "simd",
+    "checksum",
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/code-inflation/pycrc32/issues"
 
 [build-system]
 requires = ["maturin>=1.4,<2.0"]
