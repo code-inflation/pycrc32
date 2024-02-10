@@ -23,16 +23,14 @@ def main():
 
     data = np.random.random((2048, 2048)).tobytes()
 
-    # Collecting benchmark data
     results = [
         ("pycrc32", time_crc32_calculation(data, crc32, iterations)),
         ("zlib", time_crc32_calculation(data, zlib.crc32, iterations)),
         ("fastcrc", time_crc32_calculation(data, iso_hdlc, iterations)),
     ]
 
-    # Print results in tabular format
     print(f"{'Library':<10} | {'Median Time (s)':>15}")
-    print("-" * 28)  # Header separator
+    print("-" * 28)
     for lib, result_time in results:
         print(f"{lib:<10} | {result_time:15.6f}")
 
