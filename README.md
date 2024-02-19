@@ -1,4 +1,10 @@
 # pycrc32
+![PyPI - Version](https://img.shields.io/pypi/v/pycrc32)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pycrc32)
+![PyPI - License](https://img.shields.io/pypi/l/pycrc32)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/pycrc32)
+
+
 `pycrc32` is a Python module for SIMD-accelerated CRC32 checksum computation.  
 Big thanks to [rust-crc32fast](https://github.com/srijs/rust-crc32fast) - this project just provides Python bindings for their Rust implementation.
 
