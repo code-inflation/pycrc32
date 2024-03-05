@@ -46,7 +46,7 @@ print(f"New checksum: {new_checksum}")
 
 You can also initialize a `Hasher` with a specific initial CRC32 state:
 ```python
-initial_crc = 0x12345678
+initial_crc = 12345678
 hasher = Hasher.with_initial(initial_crc)
 
 hasher.update(b"additional data")
