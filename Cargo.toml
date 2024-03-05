@@ -1,6 +1,6 @@
 [package]
 name = "pycrc32"
-version = "0.1.3"
+version = "0.2.0"
 edition = "2021"
 authors = ["cybuerg <robin.buergi@gmail.com>"]
 description = "Python module for SIMD-accelerated CRC32 checksum computation"
