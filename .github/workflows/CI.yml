@@ -109,7 +109,7 @@ jobs:
           set -e
           ls dist
           pip freeze
-          pip install pycrc32 --find-links dist --force-reinstall --no-index
+          pip install dist/pycrc32-0.2.0-cp310-cp310-macosx_11_0_arm64.whl --force-reinstall
           pip install pytest
           pip freeze
           pytest
