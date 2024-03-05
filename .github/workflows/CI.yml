@@ -45,8 +45,9 @@ jobs:
         shell: bash
         run: |
           set -e
+          ls dist
           pip freeze
-          pip install pycrc32 --find-links dist --force-reinstall
+          pip install pycrc32 --find-links dist --force-reinstall --no-index
           pip install pytest
           pip freeze
           pytest
@@ -106,8 +107,9 @@ jobs:
         shell: bash
         run: |
           set -e
+          ls dist
           pip freeze
-          pip install pycrc32 --find-links dist --force-reinstall
+          pip install pycrc32 --find-links dist --force-reinstall --no-index
           pip install pytest
           pip freeze
           pytest
