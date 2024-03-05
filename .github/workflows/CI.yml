@@ -45,8 +45,10 @@ jobs:
         shell: bash
         run: |
           set -e
+          pip freeze
           pip install pycrc32 --find-links dist --force-reinstall
           pip install pytest
+          pip freeze
           pytest
 
   windows:
@@ -104,8 +106,10 @@ jobs:
         shell: bash
         run: |
           set -e
+          pip freeze
           pip install pycrc32 --find-links dist --force-reinstall
           pip install pytest
+          pip freeze
           pytest
 
   sdist:
