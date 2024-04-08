@@ -16,5 +16,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 crc32fast = "1.4.0"
-pyo3 = "0.21.0"
+pyo3 = "0.21.1"
 
