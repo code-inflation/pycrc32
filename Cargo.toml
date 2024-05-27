@@ -15,6 +15,6 @@ name = "pycrc32"
 crate-type = ["cdylib"]
 
 [dependencies]
-crc32fast = "1.4.0"
+crc32fast = "1.4.2"
 pyo3 = "0.21.2"
 
