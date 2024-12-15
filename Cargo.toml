@@ -1,6 +1,6 @@
 [package]
 name = "pycrc32"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["cybuerg <robin.buergi@gmail.com>"]
 description = "Python module for SIMD-accelerated CRC32 checksum computation"
@@ -16,5 +16,5 @@ crate-type = ["cdylib"]
 
 [dependencies]
 crc32fast = "1.4.2"
-pyo3 = "0.21.2"
+pyo3 = "0.23.3"
 

@@ -55,7 +55,7 @@ impl Hasher {
 
 /// Python module that provides bindings for the crc32fast crate
 #[pymodule]
-fn pycrc32(_py: Python, m: &PyModule) -> PyResult<()> {
+fn pycrc32(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Hasher>()?;
     m.add_function(wrap_pyfunction!(crc32, m)?)?;
     Ok(())
