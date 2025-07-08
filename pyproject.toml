@@ -36,7 +36,7 @@ Homepage = "https://github.com/code-inflation/pycrc32"
 Repository = "https://github.com/code-inflation/pycrc32"
 
 [build-system]
-requires = ["maturin>=1.4,<2.0"]
+requires = ["maturin>=1.9,<2.0"]
 build-backend = "maturin"
 
 [tool.maturin]

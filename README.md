@@ -1,6 +1,6 @@
 # pycrc32
 ![PyPI - Version](https://img.shields.io/pypi/v/pycrc32)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pycrc32)
+![Python Version](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)
 ![PyPI - License](https://img.shields.io/pypi/l/pycrc32)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pycrc32)
 
