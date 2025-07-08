@@ -257,6 +257,8 @@ jobs:
       - name: Build and test
         run: |
           uv tool install maturin
+          python -m venv .venv
+          source .venv/bin/activate
           maturin develop
           uv pip install pytest
           pytest
