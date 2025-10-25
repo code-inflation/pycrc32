@@ -14,62 +14,128 @@ pip install pycrc32
 ```
 
 ## Usage
+
+### Basic CRC32 and CRC32C
 ```python
-from pycrc32 import crc32
+from pycrc32 import crc32, crc32c
 
 data = b"123456789"
-print(f"crc32 for {data!r} is {crc32(data)}")
+
+# Standard CRC32 (IEEE 802.3 polynomial)
+print(f"CRC32 for {data!r}: {crc32(data):#x}")
+
+# CRC32C (Castagnoli polynomial, used in iSCSI, Ethernet, etc.)
+print(f"CRC32C for {data!r}: {crc32c(data):#x}")
 ```
 
-### Advanced Checksum Calculation with `Hasher`
-For scenarios that require more flexibility, such as processing large amounts of data or computing the checksum in stages, you can use the `Hasher` class:
+### Incremental Hashing with `Hasher` Class
+
+The `Hasher` class provides incremental hashing capabilities for processing large data in chunks:
+
+#### Basic Incremental Hashing
 ```python
 from pycrc32 import Hasher
 
 # Create a new Hasher instance
 hasher = Hasher()
 
-# Update the hasher with data chunks
+# Update with data chunks
 hasher.update(b"123456")
 hasher.update(b"789")
 
-# Finalize the computation and get the checksum
+# Get the final checksum
 checksum = hasher.finalize()
-print(f"Checksum: {checksum}")
-
-# Reset the hasher to compute another checksum
-hasher.reset()
-hasher.update(b"The quick brown fox jumps over the lazy dog")
-new_checksum = hasher.finalize()
-print(f"New checksum: {new_checksum}")
+print(f"Checksum: {checksum:#x}")
+print(f"Bytes processed: {len(hasher)}")
+print(f"Hasher state: {repr(hasher)}")
 ```
 
-You can also initialize a `Hasher` with a specific initial CRC32 state:
+#### Advanced Hasher Features
 ```python
-initial_crc = 12345678
-hasher = Hasher.with_initial(initial_crc)
+# Initialize with custom initial state
+hasher = Hasher.with_initial(0x12345678)
+hasher.update(b"data")
+result = hasher.finalize()
 
-hasher.update(b"additional data")
-final_checksum = hasher.finalize()
-print(f"Final checksum with initial state: {final_checksum}")
-```
-
-To combine checksums from different data blocks without needing to concatenate the data, use the `combine` method:
-```python
+# Create independent copies
 hasher1 = Hasher()
-hasher1.update(b"Data block 1")
-checksum1 = hasher1.finalize()
+hasher1.update(b"common")
+hasher2 = hasher1.copy()  # Independent copy
+hasher2.update(b"additional")
 
+print(f"Original: {hasher1.finalize():#x}")  # Only "common"
+print(f"Copy: {hasher2.finalize():#x}")      # "common" + "additional"
+
+# Context manager usage
+with Hasher() as ctx_hasher:
+    ctx_hasher.update(b"context data")
+    result = ctx_hasher.finalize()
+
+# Reset functionality
+hasher.reset()
+print(f"After reset: {hasher.finalize():#x}")
+
+# Combine states (for parallel processing)
+hasher1 = Hasher()
+hasher1.update(b"part1")
 hasher2 = Hasher()
-hasher2.update(b"Data block 2")
-checksum2 = hasher2.finalize()
+hasher2.update(b"part2")
+hasher1.combine(hasher2)
+combined = hasher1.finalize()
+```
 
-# Combine checksums from hasher1 into hasher2
-hasher1.combine(hasher2)  # Combine the state of hasher2 into hasher1
+### File Processing
+```python
+from pycrc32 import crc32_file, crc32_fileobj
 
-# The final checksum after combination
-combined_checksum = hasher1.finalize()
-print(f"Combined checksum: {combined_checksum}")
+# Process files by path
+file_crc = crc32_file("/path/to/file.txt")
+print(f"File CRC32: {file_crc:#x}")
+
+# Process file objects
+with open("/path/to/file.txt", "rb") as f:
+    fileobj_crc = crc32_fileobj(f)
+    print(f"File object CRC32: {fileobj_crc:#x}")
+
+# Works with any file-like object (BytesIO, etc.)
+import io
+data = b"file-like data"
+bio = io.BytesIO(data)
+bio_crc = crc32_fileobj(bio)
+print(f"BytesIO CRC32: {bio_crc:#x}")
+```
+
+### Enhanced Error Handling
+```python
+from pycrc32 import crc32, Hasher
+
+# Provides helpful error messages
+try:
+    crc32("invalid string")
+except TypeError as e:
+    print(f"Clear error message: {e}")
+    # Output: crc32() expects bytes-like object, got string. Use b'your string' or your_string.encode() instead.
+
+try:
+    crc32_file("/nonexistent/file.txt")
+except FileNotFoundError as e:
+    print(f"File error: {e}")
+    # Output: File not found: /nonexistent/file.txt
+```
+
+### Type Safety and IDE Support
+```python
+# Full type hints available
+from pycrc32 import crc32, crc32c, Hasher, crc32_file, crc32_fileobj
+from typing import Union
+
+def process_data(data: Union[bytes, bytearray]) -> int:
+    """Function with full type hints."""
+    return crc32(data)
+
+# IDE autocompletion and inline documentation
+hasher: Hasher = Hasher()  # Type annotation
+hasher.update(b"data")    # IDE shows method signatures
 ```
 
 ## Speed
